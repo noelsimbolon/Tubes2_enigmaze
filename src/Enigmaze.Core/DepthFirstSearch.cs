@@ -1,7 +1,5 @@
-﻿namespace Enigmaze.Core
+﻿namespace Enigmaze.Core;
+
+public class DepthFirstSearch
 {
-    public class DepthFirstSearch
-    {
-        
-    }
 }
