@@ -10,9 +10,19 @@ This is a C# implementation on graph traversal using BFS and DFS.
 
 <!-- work in progress -->
 
-## Prerequisites
+## Dependencies and Prerequisites
 
-- [.NET SDK 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) - This is required to build and run the project.
+
+- [Microsoft.NET.Test.Sdk](https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/) - This is required for running unit tests with the dotnet test command.
+
+- [NUnit](https://www.nuget.org/packages/NUnit/) - This is the NUnit framework that is used for writing unit tests.
+
+- [NUnit3TestAdapter](https://www.nuget.org/packages/NUnit3TestAdapter/) - This is the NUnit 3 Test Adapter that allows running NUnit tests in Visual Studio and on the command line.
+
+- [NUnit.Analyzers](https://www.nuget.org/packages/NUnit.Analyzers/) - This is a set of Roslyn analyzers that provide additional checks and suggestions for writing NUnit tests.
+
+- [coverlet.collector](https://www.nuget.org/packages/coverlet.collector/) - This is a code coverage tool that is used for measuring the code coverage of your tests.
 
 ## Directory Structure
 
