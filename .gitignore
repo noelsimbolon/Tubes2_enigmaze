@@ -4,3 +4,6 @@ src/.idea/
 # Ignore bin and obj directories
 **/bin/
 **/obj/
+
+# Ignore doc directory
+doc
