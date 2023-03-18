@@ -1,6 +1,9 @@
 # Ignore JetBrains Rider IDE files
 src/.idea/
 
+# Ignore user-specific settings file
+src/Enigmaze.sln.DotSettings.user
+
 # Ignore bin and obj directories
 **/bin/
 **/obj/
