@@ -1,0 +1,6 @@
+# Ignore JetBrains Rider IDE files
+src/.idea/
+
+# Ignore bin and obj directories
+**/bin/
+**/obj/
