@@ -139,26 +139,22 @@ void dfs(vector<vector<char>> grid, pair<int,int> start, int treasure, vector<ch
 
     // dfs call stacks
     visited[y][x] = true;
-    if(y-1 >= 0 && grid[y-1][x] != 'X'){
         ans.push_back('U');
         dfs(grid, {x,y-1}, treasure, ans, visited, tsp);
         ans.pop_back();
-    }
-    if(x+1 < m && grid[y][x+1] != 'X'){
+    
         ans.push_back('R');
         dfs(grid, {x+1,y}, treasure, ans, visited, tsp);
         ans.pop_back();
-    }
-    if(y+1 < n && grid[y+1][x] != 'X'){
+    
         ans.push_back('D');
         dfs(grid, {x,y+1}, treasure, ans, visited, tsp);
         ans.pop_back();
-    }
-    if(x-1 >= 0 && grid[y][x-1] != 'X'){
+    
         ans.push_back('L');
         dfs(grid, {x-1,y}, treasure, ans, visited, tsp);
         ans.pop_back();
-    }
+    
     visited[y][x] = false;
 }
 
