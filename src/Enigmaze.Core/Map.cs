@@ -1,14 +1,16 @@
-﻿namespace Enigmaze.Core;
+﻿using System.Collections.Generic;
+
+namespace Enigmaze.Core;
 
 public class Map
 {
-    private readonly char[,] _matrix;
+    private readonly List<List<char>> _matrix;
     private readonly (int, int) _startingPoint;
     private readonly int _treasureCount;
     private readonly int _rows;
     private readonly int _cols;
 
-    public Map(char[,] matrix, (int, int) startingPoint, int treasureCount, int rows, int cols)
+    public Map(List<List<char>> matrix, (int, int) startingPoint, int treasureCount, int rows, int cols)
     {
         _matrix = matrix;
         _startingPoint = startingPoint;
@@ -17,7 +19,7 @@ public class Map
         _cols = cols;
     }
 
-    public char[,] GetMatrix()
+    public List<List<char>> GetMatrix()
     {
         return _matrix;
     }
