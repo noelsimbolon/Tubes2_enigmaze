@@ -33,107 +33,112 @@ int countTreasure(vector<vector<char>> grid){
     return count;
 }
 
-vector<char> findOptimal(vector<vector<char>> possible){
-    int min = INT_MAX;
-    vector<char> ans;
-    for(int i = 0; i < possible.size(); i++){
-        if(possible[i].size() < min){
-            min = possible[i].size();
-            ans = possible[i];
+// TO DO : check if it's fitting to use for the pred used in bfs
+void memoizePath(vector<char> &ans, vector<vector<pair<int,int>>> &pred, pair<int,int> start){
+    vector<char> temp = ans;
+    ans.clear();
+    while(pred[start.second][start.first].first != -1){
+        if(pred[start.second][start.first].first < start.first){
+            ans.push_back('R');
         }
+        else if(pred[start.second][start.first].first > start.first){
+            ans.push_back('L');
+        }
+        else if(pred[start.second][start.first].second < start.second){
+            ans.push_back('D');
+        }
+        else if(pred[start.second][start.first].second > start.second){
+            ans.push_back('U');
+        }
+        start = pred[start.second][start.first];
     }
-    return ans;
-}
-
-vector<char> convertToPath(vector<pair<int,int>> vec){
-        vector<char> ans;
-        for(int i = 0; i < vec.size()-1; i++){
-            if(vec[i].first == vec[i+1].first){
-                if(vec[i].second < vec[i+1].second){
-                    ans.push_back('D');
-                }
-                else{
-                    ans.push_back('U');
-                }
-            }
-            else{
-                if(vec[i].first < vec[i+1].first){
-                    ans.push_back('R');
-                }
-                else{
-                    ans.push_back('L');
-                }
-            }
-        }
-        return ans;
-}
-
-vector<pair<int,int>> getPath(vector<vector<pair<int,int>>> pred, pair<int,int> curr){
-    vector<pair<int,int>> ans;
-    while(curr.first != -1 && curr.second != -1){
-        ans.push_back(curr);
-        curr = pred[curr.second][curr.first];
+    while(temp.size() > 0){
+        ans.push_back(temp.back());
+        temp.pop_back();
     }
     reverse(ans.begin(), ans.end());
-    return ans;
+    pred.assign(pred.size(), vector<pair<int,int>>(pred[0].size(), {-1,-1})); // reset pred since we can revisit nodes
 }
 
-void bfs(vector<vector<char>> &grid, pair<int,int> &start, int& treasure, vector<char> ans, vector<vector<bool>> visited, vector<vector<pair<int,int>>> pred, bool tsp = false){
+void bfs(vector<vector<char>> grid, pair<int,int> start, int &treasure, vector<vector<bool>> &visited, vector<vector<pair<int,int>>> &pred, vector<char> ans, bool tsp = false){
+    if(possibleBFS.size() > 0){
+        return;
+    }
+
     // get datas
     int n = grid.size(); // row size
     int m = grid[0].size(); // col size
     int x = start.first; // current x coordinate
     int y = start.second; // current y coordinate
 
-    pred[y][x] = {-1,-1}; // set start node's predecessor to -1,-1 since it has no predecessor
-
-    queue<pair<int,int>> q; // queue for bfs
-    q.push(start); // push start node into queue
-    visited[y][x] = true; // mark start node as visited
+    queue<pair<int,int>> q;
+    q.push(start);
+    visited[y][x] = true;
+    pred[y][x] = {-1,-1};
 
     while(!q.empty()){
-        pair<int,int> curr = q.front(); // get current node
-        q.pop(); // pop current node from queue
+        bfsCount++;
+        x = q.front().first;
+        y = q.front().second;
+        q.pop();
 
         // if treasure found
-        if(grid[curr.second][curr.first] == 'T'){
-            treasure--; // decrement treasure count
-            grid[curr.second][curr.first] = 'R'; // mark treasure as visited
+        if(grid[y][x] == 'T'){
+            treasure--;
+            grid[y][x] = 'R';
             visited.assign(n, vector<bool>(m, false)); // reset visited since we can revisit nodes
-            q.push(curr); // push current node back into queue
-            continue;
+            visited[y][x] = true;
+            memoizePath(ans, pred, {x,y});
+            break;
         }
 
-        // if all treasure found
-        if(treasure == 0){
-            if(tsp){
-                pair<int,int> krusty = findStart(grid);
-                grid[krusty.second][krusty.first] = 'T';
-                bfs(grid, start, treasure, ans, visited, pred);
+        if(y-1 >= 0){
+            if(grid[y-1][x]!='X' && !visited[y-1][x]){
+                q.push({x,y-1});
+                visited[y-1][x] = true;
+                pred[y-1][x] = {x,y};
             }
-            else {
-                vector<pair<int,int>> path = getPath(pred, curr);
-                possibleBFS.push_back(convertToPath(path));
-            }
-            return;
         }
 
-        // if not out of bounds, not visited, and not wall
-        if(curr.first+1 < m && !visited[curr.second][curr.first+1] && grid[curr.second][curr.first+1] != 'X'){
-            q.push({curr.first+1, curr.second}); // push right node into queue
-            visited[curr.second][curr.first+1] = true; // mark right node as visited
-            pred[curr.second][curr.first+1] = curr; // set right node's predecessor to current node
+        if(x+1 < m){
+            if(grid[y][x+1]!='X' && !visited[y][x+1]){
+                q.push({x+1,y});
+                visited[y][x+1] = true;
+                pred[y][x+1] = {x,y};
+            }
         }
-        if(curr.first-1 >= 0 && !visited[curr.second][curr.first-1] && grid[curr.second][curr.first-1] != 'X'){
-            q.push({curr.first-1, curr.second}); // push left node into queue
-            visited[curr.second][curr.first-1] = true; // mark left node as visited
-            pred[curr.second][curr.first-1] = curr; // set left node's predecessor to current node
+
+        if(y+1 < n){
+            if(grid[y+1][x]!='X' && !visited[y+1][x]){
+                q.push({x,y+1});
+                visited[y+1][x] = true;
+                pred[y+1][x] = {x,y};
+            }
         }
-        if(curr.second+1 < n && !visited[curr.second+1][curr.first] && grid[curr.second+1][curr.first] != 'X'){
-            q.push({curr.first, curr.second+1}); // push down node into queue
-            visited[curr.second+1][curr.first] = true; // mark down node as visited
-            pred[curr.second+1][curr.first] = curr; // set down node's predecessor to current node
+
+        if(x-1 >= 0){
+            if(grid[y][x-1]!='X' && !visited[y][x-1]){
+                q.push({x-1,y});
+                visited[y][x-1] = true;
+                pred[y][x-1] = {x,y};
+            }
         }
+    }
+    if(treasure == 0){
+        if(tsp){
+            pair<int,int> krusty = findStart(grid);
+            grid[krusty.second][krusty.first] = 'T';
+            treasure++;
+            cout<< x << " " << y << endl;
+            cout << krusty.first << " " << krusty.second << endl;
+            bfs(grid, {y,x}, treasure, visited, pred, ans);
+        }
+        else {
+            possibleBFS = ans;
+        }
+    }
+    if(treasure>0){
+        bfs(grid, {x,y}, treasure, visited, pred, ans, tsp);
     }
 }
 
@@ -210,22 +215,38 @@ int main(){
     pair<int,int> start = findStart(grid);
     int treasure = countTreasure(grid);
     vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size(), false));
-    dfs(grid, start, treasure, {}, visited, true);
-    for(auto i : possibleDFS){
+
+    // dfs(grid, start, treasure, {}, visited, true);
+    // for(auto i : possibleDFS){
+    //     cout << i << " ";
+    // }
+    // cout << endl;
+    // cout << "Nodes: " << dfsCount << endl;
+    // cout << "Steps: " << possibleDFS.size() << endl;
+
+    cout << "BFS" << endl;
+    vector<vector<pair<int,int>>> pred;
+    pred.assign(grid.size(), vector<pair<int,int>>(grid[0].size(), {-1,-1}));
+    bfs(grid, start, treasure, visited, pred, {}, true);
+    for(auto i : possibleBFS){
         cout << i << " ";
     }
     cout << endl;
-    cout << "Nodes: " << dfsCount << endl;
-    cout << "Steps: " << possibleDFS.size() << endl;
-    // cout << "BFS" << endl;
-    // vector<vector<pair<int,int>>> pred;
-    // pred.assign(grid.size(), vector<pair<int,int>>(grid[0].size(), {-1,-1}));
-    // bfs(grid, start, treasure, {}, visited, pred, true);
-    // for(auto i : possibleBFS){
-    //     for(auto j : i){
-    //         cout << j << " ";
-    //     }
+
+    // vector<vector<pair<int,int>>> pred =
+    // {
+    //     {{-1,-1},{0,0},{-1,-1},{-1,-1}},
+    //     {{0,0},{0,1},{1,1},{2,1}},
+    //     {{-1,-1},{-1,-1},{-1,-1},{3,1}},
+    //     {{-1,-1},{-1,-1},{-1,-1},{3,2}}
+    // };
+
+    // vector<char> ans = {'U', 'L'};
+    // memoizePath(ans, pred, {3,3});
+
+    // for(auto i : ans){
+    //     cout << i << " ";
     // }
-    // cout << endl;
+
     return 0;
 }
