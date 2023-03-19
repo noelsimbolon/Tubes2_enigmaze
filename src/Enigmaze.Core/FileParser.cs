@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Enigmaze.Core;
 
@@ -8,7 +9,7 @@ public class FileParser
 {
     private const string AllowedCharacters = "KTRX \r\n";
 
-    public static (char[,], (int, int), int, int, int) ParseFile(string filePath)
+    public static (List<List<char>>, (int, int), int, int, int) ParseFile(string filePath)
     {
         string contents = File.ReadAllText(filePath);
 
@@ -16,45 +17,84 @@ public class FileParser
         foreach (char c in contents)
             if (!AllowedCharacters.Contains(c))
             {
-                throw new Exception($"Invalid character '{c}' found in file '{filePath}'");
+                throw new InvalidDataException($"Invalid character '{c}' found in file '{filePath}'");
             }
 
         // Validate starting point
         if (contents.Count(c => c == 'K') != 1)
         {
-            throw new Exception("There must be one starting point.");
+            throw new InvalidDataException("There must be one starting point.");
         }
 
         // Count the number of treasure
         int treasureCount = contents.Count(c => c == 'T');
 
+        // There must be at least a treasure
+        if (treasureCount == 0)
+        {
+            throw new InvalidDataException("No treasure found.");
+        }
+        
+        // Initialize string array to hold raw (possible leading and trailing white spaces) lines
+        string[] rawLines = contents.Trim().Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        
+        int rows = rawLines.Length; // number of rows in the map
+
+        // Initialize a new array of string to hold each line from the input file
+        var lines = new string[rows];
+        
+        // Remove all leading and trailing white spaces, including spaces, tabs, and newlines
+        for (int i = 0; i < rows; i++)
+        {
+            lines[i] = rawLines[i].Trim();
+        }
+        
+        int cols = lines[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).Length; // number of columns in the map
+        
+        for (int i = 1; i < rows; i++)
+        {
+            if (cols != lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries).Length)
+            {
+                throw new InvalidDataException("Inconsistent number of columns");
+            }
+        }
+        
         // Create character matrix
-        string[] lines = contents.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-        int rows = lines.Length; // number of rows in the map
-        int cols = lines[0].Split(' ').Length; // number of columns in the map
-        char[,] matrix = new char[rows, cols];  // matrix of chars representing the map
+        var matrix = new List<List<char>>();  // list of list of char representing the map
+        
+        // Fill the character matrix
+        for (int i = 0; i < rows; i++) 
+        {
+            // Split the row by spaces
+            string[] columns = lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            // Initialize a new list to hold the columns
+            var rowList = new List<char>();
+            
+            // Loop through each column
+            for (int j = 0; j < cols; j++)
+            {
+                rowList.Add(char.Parse(columns[j]));
+            }
+
+            matrix.Add(rowList);
+        }
 
         // Initialize starting point
         int startingRow = 0;
         int startingCol = 0;
 
-        // Fill character matrix
-        for (int i = 0; i < lines.Length; i++)
+        // Determine the starting point
+        bool shouldBreak = false;
+        for (int i = 0; i < matrix.Count && !shouldBreak; i++)
         {
-            string[] chars = lines[i].Split(' ');
-            for (int j = 0; j < chars.Length; j++)
+            for (int j = 0; j < matrix[0].Count && !shouldBreak; j++)
             {
-                if (chars[j] == "")
-                {
-                    throw new Exception("Empty string found.");
-                }
-
-                matrix[i, j] = char.Parse(chars[j]);
-
-                if (char.Parse(chars[j]) == 'K')
+                if (matrix[i][j] == 'K')
                 {
                     startingRow = i;
                     startingCol = j;
+                    shouldBreak = true;
                 }
             }
         }
