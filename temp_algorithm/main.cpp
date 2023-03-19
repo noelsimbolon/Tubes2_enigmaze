@@ -3,8 +3,8 @@ using namespace std;
 
 static int bfsCount = 0;
 static int dfsCount = 0;
-static vector<vector<char>> possibleBFS;
-static vector<vector<char>> possibleDFS;
+static vector<char> possibleBFS;
+static vector<char> possibleDFS;
 
 pair<int,int> findStart(vector<vector<char>> grid){
     int n = grid.size();
@@ -165,7 +165,7 @@ void dfs(vector<vector<char>> grid, pair<int,int> start, int treasure, vector<ch
             dfs(grid, start, 1, ans, visited);
         }
         else {
-            possibleDFS.push_back(ans);
+            possibleDFS = ans;
         }
         return;
     }
@@ -212,13 +212,11 @@ int main(){
     vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size(), false));
     dfs(grid, start, treasure, {}, visited, true);
     for(auto i : possibleDFS){
-        for(auto j : i){
-            cout << j << " ";
-        }
+        cout << i << " ";
     }
     cout << endl;
     cout << "Nodes: " << dfsCount << endl;
-    cout << "Steps: " << possibleDFS[0].size() << endl;
+    cout << "Steps: " << possibleDFS.size() << endl;
     // cout << "BFS" << endl;
     // vector<vector<pair<int,int>>> pred;
     // pred.assign(grid.size(), vector<pair<int,int>>(grid[0].size(), {-1,-1}));
