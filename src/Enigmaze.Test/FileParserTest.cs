@@ -8,28 +8,30 @@ public class FileParserTest
     public void ParseFile_ValidFile_ReturnsExpectedOutput()
     {
         // Arrange
-        var parser = new FileParser();
-        var expectedMatrix = new[,]
+        char[,] expectedMatrix =
         {
             { 'K', 'R', 'R' },
             { 'T', 'X', 'T' },
             { 'R', 'X', 'R' }
         };
 
-        var expectedTreasureCount = 2;
-        var expectedRows = 3;
-        var expectedCols = 3;
+        const int expectedTreasureCount = 2;
+        const int expectedRows = 3;
+        const int expectedCols = 3;
         var expectedStartingPosition = (0, 0);
 
         // Act
-        var (matrix, treasureCount, rows, cols, (startingRow, startingCol)) =
-            parser.ParseFile("../../../../../test/maze1.txt");
+        (char[,] matrix, int treasureCount, int rows, int cols, (int startingRow, int startingCol)) =
+            FileParser.ParseFile("../../../../../test/maze1.txt");
 
         // Assert
-        Assert.That(matrix, Is.EqualTo(expectedMatrix));
-        Assert.That(treasureCount, Is.EqualTo(expectedTreasureCount));
-        Assert.That(rows, Is.EqualTo(expectedRows));
-        Assert.That(cols, Is.EqualTo(expectedCols));
-        Assert.That((startingRow, startingCol), Is.EqualTo(expectedStartingPosition));
+        Assert.Multiple(() =>
+        {
+            Assert.That(matrix, Is.EqualTo(expectedMatrix));
+            Assert.That(treasureCount, Is.EqualTo(expectedTreasureCount));
+            Assert.That(rows, Is.EqualTo(expectedRows));
+            Assert.That(cols, Is.EqualTo(expectedCols));
+            Assert.That((startingRow, startingCol), Is.EqualTo(expectedStartingPosition));
+        });
     }
 }
