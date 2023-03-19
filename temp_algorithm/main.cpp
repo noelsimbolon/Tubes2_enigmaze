@@ -108,18 +108,23 @@ void bfs(vector<vector<char>> &grid, pair<int,int> &start, int& treasure, vector
 }
 
 void dfs(vector<vector<char>> grid, pair<int,int> start, int treasure, vector<char> ans, vector<vector<bool>> visited, bool tsp = false){
-    int n = grid.size();
-    int m = grid[0].size();
-    int x = start.first;
-    int y = start.second;
-    if(x < 0 || x >= m || y < 0 || y >= n || visited[y][x] || grid[y][x] == 'X'){
+    // get datas
+    int n = grid.size(); // row size
+    int m = grid[0].size(); // col size
+    int x = start.first; // current x coordinate
+    int y = start.second; // current y coordinate
+    if(x < 0 || x >= m || y < 0 || y >= n || visited[y][x] || grid[y][x] == 'X'){ // if out of bounds or visited or wall
         return;
     }
+
+    // if treasure found
     if(grid[y][x] == 'T'){
         treasure--;
         grid[y][x] = 'R';
-        visited.assign(n, vector<bool>(m, false));
+        visited.assign(n, vector<bool>(m, false)); // reset visited since we can revisit nodes
     }
+
+    // if all treasure found
     if(treasure == 0){
         if(tsp){
             pair<int,int> krusty = findStart(grid);
@@ -131,6 +136,8 @@ void dfs(vector<vector<char>> grid, pair<int,int> start, int treasure, vector<ch
         }
         return;
     }
+
+    // dfs call stacks
     visited[y][x] = true;
     if(y-1 >= 0 && grid[y-1][x] != 'X'){
         ans.push_back('U');
