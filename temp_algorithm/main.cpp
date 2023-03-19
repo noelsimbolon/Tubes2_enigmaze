@@ -129,9 +129,7 @@ void bfs(vector<vector<char>> grid, pair<int,int> start, int &treasure, vector<v
             pair<int,int> krusty = findStart(grid);
             grid[krusty.second][krusty.first] = 'T';
             treasure++;
-            cout<< x << " " << y << endl;
-            cout << krusty.first << " " << krusty.second << endl;
-            bfs(grid, {y,x}, treasure, visited, pred, ans);
+            bfs(grid, {x,y}, treasure, visited, pred, ans);
         }
         else {
             possibleBFS = ans;
