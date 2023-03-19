@@ -8,7 +8,7 @@ public class FileParser
 {
     private const string AllowedCharacters = "KTRX \r\n";
 
-    public static (char[,], int, int, int, (int, int)) ParseFile(string filePath)
+    public static (char[,], (int, int), int, int, int) ParseFile(string filePath)
     {
         string contents = File.ReadAllText(filePath);
 
@@ -59,6 +59,6 @@ public class FileParser
             }
         }
 
-        return (matrix, treasureCount, rows, cols, (startingRow, startingCol));
+        return (matrix, (startingRow, startingCol), treasureCount, rows, cols);
     }
 }

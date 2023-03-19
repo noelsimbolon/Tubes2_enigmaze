@@ -21,7 +21,7 @@ public class FileParserTest
         var expectedStartingPosition = (0, 0);
 
         // Act
-        (char[,] matrix, int treasureCount, int rows, int cols, (int startingRow, int startingCol)) =
+        (char[,] matrix, (int startingRow, int startingCol), int treasureCount, int rows, int cols) =
             FileParser.ParseFile("../../../../../test/maze1.txt");
 
         // Assert
