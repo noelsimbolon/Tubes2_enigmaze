@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Enigmaze.Core;
 
@@ -21,13 +22,33 @@ public class Map
     }
 
     // Auto properties
-    public List<List<char>> Matrix { get; set; }
+    public List<List<char>> Matrix
+    {
+        get => _matrix;
+        set => _matrix = value;
+    }
     
-    public (int, int) StartingPoint { get; set; }
-    
-    public int TreasureCount { get; set; }
-    
-    public int Rows { get; set; }
-    
-    public int Cols { get; set; }
+    public (int, int) StartingPoint
+    {
+        get => _startingPoint;
+        set => _startingPoint = value;
+    }
+
+    public int TreasureCount
+    {
+        get => _treasureCount;
+        set => _treasureCount = value;
+    }
+
+    public int Rows
+    {
+        get => _rows;
+        set => _rows = value;
+    }
+
+    public int Cols
+    {
+        get => _cols;
+        set => _cols = value;
+    }
 }
