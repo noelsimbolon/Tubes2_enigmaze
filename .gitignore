@@ -1,3 +1,7 @@
+# Ignore Visual Studio user-specific settings and information
+.vs
+src/.vs
+
 # Ignore JetBrains Rider IDE files
 src/.idea/
 
