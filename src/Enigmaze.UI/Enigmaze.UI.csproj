@@ -8,7 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Enigmaze.Core\Enigmaze.Core.csproj"/>
+      <Compile Remove="Logo\NewFolder\**" />
+      <EmbeddedResource Remove="Logo\NewFolder\**" />
+      <None Remove="Logo\NewFolder\**" />
+      <Page Remove="Logo\NewFolder\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Enigmaze.Core\Enigmaze.Core.csproj" />
     </ItemGroup>
 
 </Project>
