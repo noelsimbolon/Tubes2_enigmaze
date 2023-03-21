@@ -9,7 +9,7 @@ public class FileParser
 {
     private const string AllowedCharacters = "KTRX \r\n";
 
-    public static (List<List<char>>, (int, int), int, int, int) ParseFile(string filePath)
+    public static Map ParseFile(string filePath)
     {
         string contents = File.ReadAllText(filePath);
 
@@ -99,6 +99,6 @@ public class FileParser
             }
         }
 
-        return (matrix, (startingRow, startingCol), treasureCount, rows, cols);
+        return new Map(matrix, (startingRow, startingCol), treasureCount, rows, cols);
     }
 }
