@@ -21,17 +21,16 @@ public class FileParserTest
         var expectedStartingPosition = (0, 0);
 
         // Act
-        var (matrix, (startingRow, startingCol), treasureCount, rows, cols) =
-            FileParser.ParseFile("../../../../../test/maze1.txt");
+        var map = FileParser.ParseFile("../../../../../test/maze1.txt");
 
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(matrix, Is.EqualTo(expectedMatrix));
-            Assert.That(treasureCount, Is.EqualTo(expectedTreasureCount));
-            Assert.That(rows, Is.EqualTo(expectedRows));
-            Assert.That(cols, Is.EqualTo(expectedCols));
-            Assert.That((startingRow, startingCol), Is.EqualTo(expectedStartingPosition));
+            Assert.That(map.Matrix, Is.EqualTo(expectedMatrix));
+            Assert.That(map.TreasureCount, Is.EqualTo(expectedTreasureCount));
+            Assert.That(map.Rows, Is.EqualTo(expectedRows));
+            Assert.That(map.Cols, Is.EqualTo(expectedCols));
+            Assert.That((map.StartingPoint.Item1, map.StartingPoint.Item2), Is.EqualTo(expectedStartingPosition));
         });
     }
 
@@ -53,17 +52,16 @@ public class FileParserTest
         var expectedStartingPosition = (1, 3);
 
         // Act
-        var (matrix, (startingRow, startingCol), treasureCount, rows, cols) =
-            FileParser.ParseFile("../../../../../test/maze2.txt");
+        var map = FileParser.ParseFile("../../../../../test/maze2.txt");
 
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(matrix, Is.EqualTo(expectedMatrix));
-            Assert.That(treasureCount, Is.EqualTo(expectedTreasureCount));
-            Assert.That(rows, Is.EqualTo(expectedRows));
-            Assert.That(cols, Is.EqualTo(expectedCols));
-            Assert.That((startingRow, startingCol), Is.EqualTo(expectedStartingPosition));
+            Assert.That(map.Matrix, Is.EqualTo(expectedMatrix));
+            Assert.That(map.TreasureCount, Is.EqualTo(expectedTreasureCount));
+            Assert.That(map.Rows, Is.EqualTo(expectedRows));
+            Assert.That(map.Cols, Is.EqualTo(expectedCols));
+            Assert.That((map.StartingPoint.Item1, map.StartingPoint.Item2), Is.EqualTo(expectedStartingPosition));
         });
     }
 
@@ -72,7 +70,25 @@ public class FileParserTest
     {
         Assert.Throws<InvalidDataException>(() =>
         {
-            FileParser.ParseFile("../../../../../test/maze3.txt");
+            var map = FileParser.ParseFile("../../../../../test/maze3.txt");
+        });
+    }
+
+    [Test]
+    public void ParseFile_NoStartingPoint()
+    {
+        Assert.Throws<InvalidDataException>(() =>
+        {
+            var map = FileParser.ParseFile("../../../../../test/maze4.txt");
+        });
+    }
+
+    [Test]
+    public void ParseFile_ExtraStartingPoint()
+    {
+        Assert.Throws<InvalidDataException>(() =>
+        {
+            var map = FileParser.ParseFile("../../../../../test/maze5.txt");
         });
     }
 }
