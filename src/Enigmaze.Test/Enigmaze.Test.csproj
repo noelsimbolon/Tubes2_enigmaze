@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+<!--        Uncomment the line below if there is an error regarding more than one entry point defined -->
+<!--        <GenerateProgramFile>false</GenerateProgramFile>-->
     </PropertyGroup>
 
     <ItemGroup>
