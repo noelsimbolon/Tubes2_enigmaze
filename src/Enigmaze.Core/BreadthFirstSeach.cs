@@ -131,14 +131,4 @@ public class BreadthFirstSearch
             Run(hasVisited, goBackToStart);
         }
     }
-
-    public void clearAssets(){
-        Path.Clear();
-        VisitedNodes.Clear();
-        for(int i = 0; i < Predecessors.Count; i++){
-            for(int j = 0; j < Predecessors[0].Count; j++){
-                Predecessors[i][j] = (-1, -1);
-            }
-        }
-    }
 }

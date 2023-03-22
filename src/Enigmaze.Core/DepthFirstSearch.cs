@@ -111,9 +111,4 @@ public class DepthFirstSearch
             }
         }
     }
-
-    public void clearAssets(){
-        Path = new List<char>();
-        VisitedNodes = new List<(int, int)>();
-    }
 }
