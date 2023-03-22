@@ -12,6 +12,7 @@ public class Map
     public int Cols { get; set; }
 
     // Constructor
+    public Map() { }
     public Map(List<List<char>> matrix, (int x, int y) startingPoint, int treasureCount, int rows, int cols)
     {
         Matrix = matrix;
@@ -19,6 +20,11 @@ public class Map
         TreasureCount = treasureCount;
         Rows = rows;
         Cols = cols;
+    }
+
+    public List<List<char>> getMatrix() 
+    {
+        return this.Matrix;
     }
 
     // Method to find the index of matrix that contains the character 'K'

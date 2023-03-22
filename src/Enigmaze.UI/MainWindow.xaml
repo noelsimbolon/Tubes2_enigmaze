@@ -80,6 +80,14 @@
                 </StackPanel>
             </Button>
 
+            <TextBlock x:Name="PathFileName"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Foreground="White"
+                       FontSize="15"
+                       Margin="30,120,0,0"
+                       Grid.Row="1"/>
+
             <TextBlock Text="Algoritma"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
@@ -128,14 +136,40 @@
                     Grid.Row="1">
             </Button>
 
-            <DataGrid Grid.Row="1"
+            <DataGrid Grid.Row="1" ColumnWidth="*"
                       Grid.Column="1"
                       VerticalAlignment="Top"
                       Margin="0,0,0,0"
                       Height="340"
                       BorderThickness="2"
                       Background="Transparent"
-                      Width="340">
+                      x:Name="dtGridView"
+                      Width="326" HeadersVisibility="None" SelectionMode="Single" AutomationProperties.IsOffscreenBehavior="Onscreen" 
+                      CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserAddRows="False" 
+                      CanUserDeleteRows="False" CanUserResizeRows="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxWidth="340" MaxHeight="340">
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value='X'>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value='K'>
+                                <Setter Property="Background" Value="Blue"/>
+                                <Setter Property="Foreground" Value="Blue"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value='R'>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value='T'>
+                                <Setter Property="Background" Value="Green"/>
+                                <Setter Property="Foreground" Value="Green"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
             </DataGrid>
 
             <TextBlock Text="Route:"
@@ -178,11 +212,6 @@
                        Grid.Row="1"
                        Grid.Column="1"/>
 
-
-            <ContentControl Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="10"/>
-            
             <!--Display Hasil -->
             <TextBlock x:Name="textBoxRoute"
                        Text=""
