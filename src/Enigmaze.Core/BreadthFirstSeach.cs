@@ -8,7 +8,6 @@ public class BreadthFirstSearch
     public List<char> Path { get; private set; } = new ();
     public List<(int, int)> VisitedNodes { get; private set; } = new ();
     public List<List<(int, int)>> Predecessors { get; private set; } = new ();
-    public int VisitedNodeCount { get; private set; } = 0;
 
     public BreadthFirstSearch(Map map)
     {
@@ -61,7 +60,6 @@ public class BreadthFirstSearch
         Predecessors[Map.StartingPoint.Item1][Map.StartingPoint.Item2] = (-1, -1);
 
         while(queue.Count != 0){
-            VisitedNodeCount++;
             (int, int) current = queue.Dequeue();
             int row = current.Item1;
             int col = current.Item2;
@@ -131,6 +129,16 @@ public class BreadthFirstSearch
         
         if(Map.TreasureCount > 0){
             Run(hasVisited, goBackToStart);
+        }
+    }
+
+    public void clearAssets(){
+        Path.Clear();
+        VisitedNodes.Clear();
+        for(int i = 0; i < Predecessors.Count; i++){
+            for(int j = 0; j < Predecessors[0].Count; j++){
+                Predecessors[i][j] = (-1, -1);
+            }
         }
     }
 }

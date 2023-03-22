@@ -7,8 +7,7 @@ public class DepthFirstSearch
     // Auto properties
     public Map Map { get; private set; }
     public List<char> Path { get; private set; } = new ();  // Empty list as default value
-    public List<(int, int)> VisitedNodes { get; private set; } = new ();
-    public int VisitedNodeCount { get; private set; } = 0;  // Default value of 0
+    public List<(int, int)> VisitedNodes { get; private set; } = new (); // Default value of 0
 
     // Constructor
     public DepthFirstSearch(Map map)
@@ -23,8 +22,6 @@ public class DepthFirstSearch
         {
             return;
         }
-
-        VisitedNodeCount++;
 
         // Assign variables
         int row = Map.StartingPoint.Item1;  // Current row
@@ -113,5 +110,10 @@ public class DepthFirstSearch
                 }
             }
         }
+    }
+
+    public void clearAssets(){
+        Path = new List<char>();
+        VisitedNodes = new List<(int, int)>();
     }
 }
