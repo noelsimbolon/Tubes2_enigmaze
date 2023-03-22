@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -28,10 +29,15 @@ namespace Enigmaze.UI;
 public partial class MainWindow : Window
 {
 
-    // Global Variable
-    int ALGORITHM = 0; // 1 = BFS       2 = DFS
-    int TSP = 0; // OddNumber = On    EvenNumber = Off
-    string mazePath = "";
+    // Attributes
+    private int ALGORITHM = 0;      // 1 = BFS       2 = DFS
+    private int TSP = 0;            // OddNumber = On    EvenNumber = Off
+    private string mazePath = "";
+    private List<char> finalPath;
+    private List<(int, int)> finalVisitedNodes;
+    private int nodesCount;
+    private TimeSpan execTime;      // miliseconds
+
     // Map Mazemap = (List<List<char>>, (0, 0), 0, 0, 0);
     public MainWindow()
     {
@@ -94,10 +100,7 @@ public partial class MainWindow : Window
             dt.Rows.Add(dr);
         }
     }
-    private void Algo_DFS()
-    {
-        dtGridView.
-    }
+
     private void File_Dialog_Button_Click(object sender, RoutedEventArgs e)
     {
         OpenFileDialog fileDialog = new OpenFileDialog();
@@ -152,29 +155,127 @@ public partial class MainWindow : Window
 
     private void ToggleButton_Checked(object sender, RoutedEventArgs e)
     {
-        TSP += 1;
+        if (TSP != 0)
+        {
+            TSP = 0; return;
+        }
+        TSP = 1; return;
     }
 
     private void DisplayRoute(object sender, RoutedEventArgs e)
     {
-        textBoxRoute.Text = "A-B-C-D-E";
     }
 
     private void DisplayNodes(object sender, RoutedEventArgs e)
     {
-        int hasil = 10;
-        textBoxNodes.Text = hasil.ToString();
     }
 
     private void DisplaySteps(object sender, RoutedEventArgs e)
     {
-        int hasil = 10;
-        textBoxSteps.Text = hasil.ToString();
     }
 
     private void DisplayExecutionTime(object sender, RoutedEventArgs e)
     {
-        int hasil = 10;
-        textBoxExecTime.Text = hasil.ToString();
+    }
+     
+    private void Algo_DFS()
+    {
+        Stopwatch time = new Stopwatch();
+        var dfs = new DepthFirstSearch(FileParser.ParseFile(mazePath));
+        time.Start();
+        dfs.Run(new List<char>(),
+            Utils.createNewHasVisited(dfs.Map.Rows, dfs.Map.Cols));
+        time.Stop();
+        finalPath = dfs.Path;
+        finalVisitedNodes = dfs.VisitedNodes;
+        nodesCount = dfs.VisitedNodes.Count;
+        execTime = time.Elapsed;
+
+        // Output
+        textBoxRoute.Text = string.Join("-", finalPath);
+        textBoxNodes.Text = nodesCount.ToString();
+        textBoxSteps.Text = finalVisitedNodes.Count.ToString();
+        textBoxExecTime.Text = execTime.TotalMilliseconds.ToString() + " ms";
+
+
+    }
+
+    private void Algo_BFS()
+    {
+        Stopwatch time = new Stopwatch();
+        var bfs = new BreadthFirstSearch(FileParser.ParseFile(mazePath));
+        time.Start();
+        bfs.Run(Utils.createNewHasVisited(bfs.Map.Rows, bfs.Map.Cols));
+        time.Stop();
+        finalPath = bfs.Path;
+        finalVisitedNodes = bfs.VisitedNodes;
+        nodesCount = bfs.VisitedNodes.Count;
+        execTime = time.Elapsed;
+
+        // Output
+        textBoxRoute.Text = string.Join("-", finalPath);
+        textBoxNodes.Text = nodesCount.ToString();
+        textBoxSteps.Text = finalPath.Count.ToString();
+        textBoxExecTime.Text = execTime.TotalMilliseconds.ToString() + " ms";
+    }
+
+    private void Algo_TSP()
+    {
+        if (ALGORITHM == 1)
+        {
+            Stopwatch time = new Stopwatch();
+            var bfs = new DepthFirstSearch(FileParser.ParseFile(mazePath));
+            time.Start();
+            bfs.Run(new List<char>(),
+                Utils.createNewHasVisited(bfs.Map.Rows, bfs.Map.Cols),true);
+            time.Stop();
+            finalPath = bfs.Path;
+            finalVisitedNodes = bfs.VisitedNodes;
+            nodesCount = bfs.VisitedNodes.Count;
+            execTime = time.Elapsed;
+
+            // Output
+            textBoxRoute.Text = string.Join("-", finalPath);
+            textBoxNodes.Text = nodesCount.ToString();
+            textBoxSteps.Text = finalPath.Count.ToString();
+            textBoxExecTime.Text = execTime.TotalMilliseconds.ToString() + " ms";
+        }
+        else if (ALGORITHM == 2)
+        {
+            Stopwatch time = new Stopwatch();
+            var dfs = new DepthFirstSearch(FileParser.ParseFile(mazePath));
+            time.Start();
+            dfs.Run(new List<char>(),
+                Utils.createNewHasVisited(dfs.Map.Rows, dfs.Map.Cols),true);
+            finalPath = dfs.Path;
+            finalVisitedNodes = dfs.VisitedNodes;
+            nodesCount = dfs.VisitedNodes.Count;
+            time.Stop();
+            execTime = time.Elapsed;
+
+            // Output
+            textBoxRoute.Text = string.Join("-", finalPath);
+            textBoxNodes.Text = nodesCount.ToString();
+            textBoxSteps.Text = finalVisitedNodes.Count.ToString();
+            textBoxExecTime.Text = execTime.TotalMilliseconds.ToString() + " ms";
+        }
+    }
+
+    private void Start_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (TSP == 0)
+        {
+            if (ALGORITHM == 1)
+            {
+                Algo_BFS();
+            }
+            else if (ALGORITHM == 2)
+            {
+                Algo_DFS();
+            }
+        } else
+        {
+            Algo_TSP();
+        }
     }
 }

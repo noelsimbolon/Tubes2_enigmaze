@@ -61,7 +61,7 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,30,0,0"
+                       Margin="30,10,0,0"
                        Grid.Row="1"/>
 
             <Button VerticalAlignment="Top"
@@ -69,14 +69,13 @@
                     Width="140"
                     FontSize="16"
                     Background="Transparent"
-                    Margin="0,80,0,0"
+                    Margin="0,50,0,0"
                     BorderThickness="2"
                     Grid.Row="1"
                     Click="File_Dialog_Button_Click">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="D:\Vs Code\Tubes2_enigmaze\src\Enigmaze.UI\Logo\add_folder_logo.png" Width="24" Height="24" Margin="0,0,20,0" ></Image>
                     <TextBlock Text="Insert Maze" Foreground="White"></TextBlock>
-
                 </StackPanel>
             </Button>
 
@@ -85,7 +84,7 @@
                        HorizontalAlignment="Left"
                        Foreground="White"
                        FontSize="15"
-                       Margin="30,120,0,0"
+                       Margin="30,90,0,0"
                        Grid.Row="1"/>
 
             <TextBlock Text="Algoritma"
@@ -94,14 +93,14 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,160,0,0"
+                       Margin="30,120,0,0"
                        Grid.Row="1"/>
 
             <StackPanel Grid.Row="1">
                 <RadioButton Content="BFS"
                              Name="RadioButton1"
                              FontSize="16"
-                             Margin="50,210,0,0"
+                             Margin="50,165,0,0"
                              Foreground="White" Checked="RadioButton1_Checked">
                 </RadioButton>
                 <RadioButton Content="DFS"
@@ -118,22 +117,23 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,300,0,0"
+                       Margin="30,240,0,0"
                        Grid.Row="1"/>
 
             <ToggleButton  
                 Grid.Row="1"
-                Margin="40,200,0,0"
+                Margin="40,80,0,0"
                 Style="{StaticResource ToggleButtonStyle1}" Checked="ToggleButton_Checked"/>
 
+            
             <Button Content="START"
                     FontWeight="Bold"
                     Height="40"
                     Width="140"
                     FontSize="20"
                     Background="White"
-                    Margin="0,380,0,0"
-                    Grid.Row="1">
+                    Margin="0,420,0,0"
+                    Grid.Row="1" Click="Start_Button_Click">
             </Button>
 
             <DataGrid Grid.Row="1" ColumnWidth="*"
@@ -256,6 +256,25 @@
                        Margin="600,0,0,50"
                        Grid.Row="1"
                        Grid.Column="1"/>
+
+            <TextBlock Text="Waiting Time"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Foreground="White"
+                       FontWeight="SemiBold"
+                       FontSize="25"
+                       Margin="30,340,0,0"
+                       Grid.Row="1"/>
+            <DockPanel VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,0,110" Width="150">
+                <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+                <Slider Maximum="1000" TickPlacement="BottomRight" TickFrequency="100" IsSnapToTickEnabled="True" Name="slValue" />
+            </DockPanel>
+
+            <!--<Slider Width="120"
+                    Grid.Row="1"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,150"/>-->
         </Grid>
     </Border>
 </Window>
