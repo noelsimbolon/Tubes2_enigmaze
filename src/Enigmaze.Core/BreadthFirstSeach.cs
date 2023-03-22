@@ -8,7 +8,7 @@ public class BreadthFirstSearch
     public List<char> Path { get; private set; } = new ();
     public List<(int, int)> VisitedNodes { get; private set; } = new ();
     public List<List<(int, int)>> Predecessors { get; private set; } = new ();
-    public int NodeCount { get; private set; } = 0;
+    public int VisitedNodeCount { get; private set; } = 0;
 
     public BreadthFirstSearch(Map map)
     {
@@ -61,7 +61,7 @@ public class BreadthFirstSearch
         Predecessors[Map.StartingPoint.Item1][Map.StartingPoint.Item2] = (-1, -1);
 
         while(queue.Count != 0){
-            NodeCount++;
+            VisitedNodeCount++;
             (int, int) current = queue.Dequeue();
             int row = current.Item1;
             int col = current.Item2;

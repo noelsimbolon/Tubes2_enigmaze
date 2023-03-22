@@ -8,7 +8,7 @@ public class DepthFirstSearch
     public Map Map { get; private set; }
     public List<char> Path { get; private set; } = new ();  // Empty list as default value
     public List<(int, int)> VisitedNodes { get; private set; } = new ();
-    public int NodeCount { get; private set; } = 0;  // Default value of 0
+    public int VisitedNodeCount { get; private set; } = 0;  // Default value of 0
 
     // Constructor
     public DepthFirstSearch(Map map)
@@ -24,7 +24,7 @@ public class DepthFirstSearch
             return;
         }
 
-        NodeCount++;
+        VisitedNodeCount++;
 
         // Assign variables
         int row = Map.StartingPoint.Item1;  // Current row
