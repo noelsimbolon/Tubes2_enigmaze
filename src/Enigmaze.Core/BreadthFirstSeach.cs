@@ -13,35 +13,45 @@ public class BreadthFirstSearch
     public BreadthFirstSearch(Map map)
     {
         Map = new Map(map.Matrix, map.StartingPoint, map.TreasureCount, map.Rows, map.Cols);
+        for (int i = 0; i < Map.Rows; i++)
+        {
+            Predecessors.Add(new List<(int, int)>());
+            for (int j = 0; j < Map.Cols; j++)
+            {
+                Predecessors[i].Add((-1, -1));
+            }
+        }
     }
 
-    public void SetPath(){
-        (int, int) krustyKrab = Map.FindKrustyKrab();
-        int row = krustyKrab.Item1;
-        int col = krustyKrab.Item2;
-        while (Predecessors[row][col] != (-1, -1)){
-            (int, int) predecessor = Predecessors[row][col];
-            if (predecessor.Item1 == row - 1){
-                Path.Add('D');
+    public void SetPath((int, int) StartingPoint){
+        List<char> temp = new List<char>();
+        int row = StartingPoint.Item1;
+        int col = StartingPoint.Item2;
+        while(Predecessors[row][col] != (-1, -1)){
+            if(row - Predecessors[row][col].Item1 == 1){
+                temp.Add('D');
             }
-            else if (predecessor.Item1 == row + 1){
-                Path.Add('U');
+            else if(row - Predecessors[row][col].Item1 == -1){
+                temp.Add('U');
             }
-            else if (predecessor.Item2 == col - 1){
-                Path.Add('R');
+            else if(col - Predecessors[row][col].Item2 == 1){
+                temp.Add('R');
             }
-            else if (predecessor.Item2 == col + 1){
-                Path.Add('L');
+            else if(col - Predecessors[row][col].Item2 == -1){
+                temp.Add('L');
             }
-            row = predecessor.Item1;
-            col = predecessor.Item2;
+
+            (row, col) = Predecessors[row][col];
         }
-        Path.Reverse();
+        while(temp.Count != 0){
+            Path.Add(temp[temp.Count - 1]);
+            temp.RemoveAt(temp.Count - 1);
+        }
     }
 
     public void Run(List<List<bool>> hasVisited, bool goBackToStart = false){
-        // There's already a path found from a previous run
-        if(Path.Count > 0){
+        // There's no treasure left to find
+        if(Map.TreasureCount == 0){
             return;
         }
 
@@ -61,7 +71,8 @@ public class BreadthFirstSearch
             if(Map.Matrix[row][col] == 'T'){
                 Map.TreasureCount--;
                 Map.Matrix[row][col] = 'R';
-                SetPath();
+                SetPath((row, col));
+                Map.StartingPoint = (row, col);
                 
                 // Reset visited nodes to false since we can revisit nodes
                 for (int i = 0; i < hasVisited.Count; i++){
