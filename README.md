@@ -8,7 +8,7 @@ The application then uses breadth-first search or depth-first search algorithm t
 
 If the `Go Back to Start` checkbox is checked, the algorithm will find extra path to go back to the starting node after collecting all of the treasures.
 
-[![enigmaze.png](https://i.postimg.cc/d1QZ8kfT/enigmaze.png)](https://postimg.cc/NyV0tMBg)
+[![enigmaze.png](https://i.postimg.cc/5tpt3JjR/enigmaze.png)](https://postimg.cc/JyDmr9NN)
 
 ## How To Use
 
