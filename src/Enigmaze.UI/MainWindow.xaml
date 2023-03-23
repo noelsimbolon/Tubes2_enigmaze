@@ -250,31 +250,81 @@
 
                     <DockPanel>
                         
-                    <DataGrid Name="MapGrid"
-                              ColumnWidth="*"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Center"
-                              Margin="0,0,0,0"
-                              Height="340"
-                              BorderThickness="0"
-                              Background="Transparent"
-                              Width="340"
-                              HeadersVisibility="None"
-                              SelectionMode="Single"
-                              AutomationProperties.IsOffscreenBehavior="Onscreen"
-                              CanUserReorderColumns="False"
-                              CanUserResizeColumns="False"
-                              CanUserSortColumns="False"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              CanUserResizeRows="False"
-                              VirtualizingPanel.VirtualizationMode="Standard"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                              MaxWidth="340"
-                              MaxHeight="340"
-                              CellStyle="{StaticResource MapGridStyle}">
-                    </DataGrid>
+                        <DataGrid Name="MapGrid"
+                                  ColumnWidth="*"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="165,0,0,0"
+                                  Height="340"
+                                  BorderThickness="0"
+                                  Background="Transparent"
+                                  Width="340"
+                                  HeadersVisibility="None"
+                                  SelectionMode="Single"
+                                  AutomationProperties.IsOffscreenBehavior="Onscreen"
+                                  CanUserReorderColumns="False"
+                                  CanUserResizeColumns="False"
+                                  CanUserSortColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserResizeRows="False"
+                                  VirtualizingPanel.VirtualizationMode="Standard"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  MaxWidth="340"
+                                  MaxHeight="340"
+                                  CellStyle="{StaticResource MapGridStyle}">
+                        </DataGrid>
+                        
+                        <StackPanel VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,100,0,100">
+                            
+                            <TextBlock Text="Legend:"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="#BFE4EE"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       FontFamily="Open Sans"/>
+                            
+                            <DockPanel>
+                                <Rectangle Width="10" Height="10" Fill="Blue"></Rectangle>
+                                <TextBlock Text="Start"
+                                           FontSize="12"
+                                           FontFamily="Open Sans"
+                                           Foreground="#BFE4EE"
+                                           Margin="5,0,0,0"/>
+                            </DockPanel>
+                            
+                            <DockPanel>
+                                <Rectangle Width="10" Height="10" Fill="Green"></Rectangle>
+                                <TextBlock Text="Treasure"
+                                           FontSize="12"
+                                           FontFamily="Open Sans"
+                                           Foreground="#BFE4EE"
+                                           Margin="5,0,0,0"/>
+                            </DockPanel>
+                            
+                            <DockPanel>
+                                <Rectangle Width="10" Height="10" Fill="White"></Rectangle>
+                                <TextBlock Text="Path"
+                                           FontSize="12"
+                                           FontFamily="Open Sans"
+                                           Foreground="#BFE4EE"
+                                           Margin="5,0,0,0"/>
+                            </DockPanel>
+                            
+                            <DockPanel>
+                                <Rectangle Width="10" Height="10" Fill="Black"></Rectangle>
+                                <TextBlock Text="Wall"
+                                           FontSize="12"
+                                           FontFamily="Open Sans"
+                                           Foreground="#BFE4EE"
+                                           Margin="5,0,0,0"/>
+                            </DockPanel>
+                            
+                        </StackPanel>
                         
                     </DockPanel>
 

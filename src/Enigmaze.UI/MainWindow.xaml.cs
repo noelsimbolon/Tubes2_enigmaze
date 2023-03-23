@@ -33,6 +33,7 @@ public partial class MainWindow : Window
     private List<List<int>> NumVisits { get; set; } // represents the number of visits a cell has
     private string FileName { get; set; }
     private bool IsGoBackChecked { get; set; } = false;
+    private bool IsVisualizationRunning { get; set; } = false;
     private int FileOpened { get; set; } = 0;
     private int? AlgorithmUsed { get; set; } = null; // 1 if it's BFS, 2 if it's DFS
     private int VisitedNodeCount { get; set; }
@@ -45,6 +46,13 @@ public partial class MainWindow : Window
 
     private void File_Dialog(object sender, RoutedEventArgs e)
     {
+        if (IsVisualizationRunning)
+        {
+            FileTextBlock.Text = "Wait for the visualization.";
+            FileTextBlock.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF0000"));
+            return;
+        }
+        
         var fileDialog = new OpenFileDialog();
         fileDialog.Title = "Open Maze";
         fileDialog.DefaultExt = ".txt";
@@ -247,6 +255,8 @@ public partial class MainWindow : Window
 
     private async void VisualizePathFinding(object sender, RoutedEventArgs e)
     {
+        IsVisualizationRunning = true;
+        
         foreach (var tupleOfIndex in VisitedNodes)
         {
             DataGridRow row = (DataGridRow)MapGrid.ItemContainerGenerator.ContainerFromIndex(tupleOfIndex.Item1);
@@ -275,6 +285,8 @@ public partial class MainWindow : Window
 
             await Task.Delay(StepInterval);
         }
+
+        IsVisualizationRunning = false;
     }
 
     private T GetVisualChild<T>(DependencyObject parent) where T : Visual
