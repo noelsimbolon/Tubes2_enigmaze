@@ -5,9 +5,9 @@ namespace Enigmaze.Core;
 public class DepthFirstSearch
 {
     // Auto properties
-    public Map Map { get; private set; }
+    public Map Map { get; }
     public List<char> Path { get; private set; } = new ();  // Empty list as default value
-    public List<(int, int)> VisitedNodes { get; private set; } = new (); // Default value of 0
+    public List<(int, int)> VisitedNodes { get; } = new (); // Default value of 0
 
     // Constructor
     public DepthFirstSearch(Map map)
