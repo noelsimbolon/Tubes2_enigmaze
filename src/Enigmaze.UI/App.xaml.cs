@@ -6,11 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Enigmaze.UI;
-
-/// <summary>
-///     Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+namespace Enigmaze.UI.Test
 {
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
+    {
+    }
 }
