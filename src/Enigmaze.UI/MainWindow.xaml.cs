@@ -23,12 +23,8 @@ using System.Windows.Shapes;
 
 namespace Enigmaze.UI;
 
-/// <summary>
-///     Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
-
     // Attributes
     private int ALGORITHM = 0;      // 1 = BFS       2 = DFS
     private int TSP = 0;            // OddNumber = On    EvenNumber = Off
@@ -37,6 +33,7 @@ public partial class MainWindow : Window
     private List<(int, int)> finalVisitedNodes;
     private int nodesCount;
     private TimeSpan execTime;      // miliseconds
+    private int waitTime;
 
     // Map Mazemap = (List<List<char>>, (0, 0), 0, 0, 0);
     public MainWindow()
@@ -50,11 +47,6 @@ public partial class MainWindow : Window
         {
             this.DragMove();
         }
-    }
-
-    private void RadioButton_Checked(object sender, RoutedEventArgs e)
-    {
-
     }
 
     private void Exit_Button_Click(object sender, RoutedEventArgs e)
@@ -79,8 +71,8 @@ public partial class MainWindow : Window
 
     private static void AddColumnToTable(List<List<char>> matr, ref DataTable dt)
     {
-        List<char> kolom = matr[0]; // collect data per column dipisah spasi
-        for (int i = 0; i < kolom.Count; i++) // setiap kolom diiterasi
+        List<char> kolom = matr[0];                 // collect data per column dipisah spasi
+        for (int i = 0; i < kolom.Count; i++)       // setiap kolom diiterasi
         {
             DataColumn dc = new DataColumn("", typeof(char)); // ini yang "" itu judul tiap kolom 
             dt.Columns.Add(dc);
@@ -129,7 +121,6 @@ public partial class MainWindow : Window
                 {
                     temp = temp.Append( "" + (Mazemap.Matrix[i][j])).ToArray();
                 }
-
                 dt.Rows.Add(temp);
             }
             DataView dv = new DataView(dt);
@@ -162,22 +153,6 @@ public partial class MainWindow : Window
         TSP = 1; return;
     }
 
-    private void DisplayRoute(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void DisplayNodes(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void DisplaySteps(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void DisplayExecutionTime(object sender, RoutedEventArgs e)
-    {
-    }
-     
     private void Algo_DFS()
     {
         Stopwatch time = new Stopwatch();
@@ -196,7 +171,6 @@ public partial class MainWindow : Window
         textBoxNodes.Text = nodesCount.ToString();
         textBoxSteps.Text = finalVisitedNodes.Count.ToString();
         textBoxExecTime.Text = execTime.TotalMilliseconds.ToString() + " ms";
-
 
     }
 
@@ -261,6 +235,15 @@ public partial class MainWindow : Window
         }
     }
 
+    public void changeColorMaze(int i, int j, bool isVisited, int sleepTime)
+    {
+        if (isVisited)
+        {
+            if (sleepTime == 0) { }
+        }
+    }
+
+
     private void Start_Button_Click(object sender, RoutedEventArgs e)
     {
         if (TSP == 0)
@@ -277,5 +260,19 @@ public partial class MainWindow : Window
         {
             Algo_TSP();
         }
+
+        // Visualize
+        //private List<(int, int)> finalVisitedNodes;
+        if (ALGORITHM == 1)
+        {
+
+        }
+
+
+}
+
+    private void slValue_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        waitTime = (int)slValue.Value;
     }
 }

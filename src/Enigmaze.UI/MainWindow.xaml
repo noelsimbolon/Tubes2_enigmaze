@@ -84,7 +84,7 @@
                        HorizontalAlignment="Left"
                        Foreground="White"
                        FontSize="15"
-                       Margin="30,90,0,0"
+                       Margin="30,100,0,0"
                        Grid.Row="1"/>
 
             <TextBlock Text="Algoritma"
@@ -93,14 +93,14 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,120,0,0"
+                       Margin="30,140,0,0"
                        Grid.Row="1"/>
 
             <StackPanel Grid.Row="1">
                 <RadioButton Content="BFS"
                              Name="RadioButton1"
                              FontSize="16"
-                             Margin="50,165,0,0"
+                             Margin="50,185,0,0"
                              Foreground="White" Checked="RadioButton1_Checked">
                 </RadioButton>
                 <RadioButton Content="DFS"
@@ -117,15 +117,15 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,240,0,0"
+                       Margin="40,260,0,0"
                        Grid.Row="1"/>
 
             <ToggleButton  
                 Grid.Row="1"
-                Margin="40,80,0,0"
+                Margin="40,120,0,0"
                 Style="{StaticResource ToggleButtonStyle1}" Checked="ToggleButton_Checked"/>
 
-            
+
             <Button Content="START"
                     FontWeight="Bold"
                     Height="40"
@@ -136,10 +136,29 @@
                     Grid.Row="1" Click="Start_Button_Click">
             </Button>
 
+            <TextBlock Text="LEGENDS" FontSize="20" FontWeight="Bold" Foreground="White"
+                       Grid.Column="1" Grid.Row="1" Margin="530,10,0,0"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="530,50,0,0">
+                <Rectangle Width="20" Height="20" Fill="Blue" VerticalAlignment="Top"/>
+                <TextBlock Text="START" FontSize="15" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="530,80,0,0">
+                <Rectangle Width="20" Height="20" Fill="Green" VerticalAlignment="Top"/>
+                <TextBlock Text="TREASURE" FontSize="15" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="530,110,0,0">
+                <Rectangle Width="20" Height="20" Fill="White" VerticalAlignment="Top"/>
+                <TextBlock Text="PATH" FontSize="15" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="530,140,0,0">
+                <Rectangle Width="20" Height="20" Fill="Black" VerticalAlignment="Top"/>
+                <TextBlock Text="WALL" FontSize="15" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+
             <DataGrid Grid.Row="1" ColumnWidth="*"
                       Grid.Column="1"
                       VerticalAlignment="Top"
-                      Margin="0,0,0,0"
+                      Margin="0,0,150,0"
                       Height="340"
                       BorderThickness="2"
                       Background="Transparent"
@@ -150,6 +169,8 @@
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxWidth="340" MaxHeight="340">
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
+                        <Setter Property="IsHitTestVisible" Value="False" />
+                        <Setter Property="Focusable" Value="False" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Value='X'>
                                 <Setter Property="Background" Value="Black"/>
@@ -213,11 +234,16 @@
                        Grid.Column="1"/>
 
             <!--Display Hasil -->
-            <TextBlock x:Name="textBoxRoute"
+            <TextBox x:Name="textBoxRoute"
                        Text=""
+                       TextWrapping="NoWrap"
+                       AcceptsReturn="True"
+                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"
                        Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
                        FontWeight="Light"
                        FontSize="20"
                        Margin="130,0,0,120"
@@ -263,18 +289,14 @@
                        Foreground="White"
                        FontWeight="SemiBold"
                        FontSize="25"
-                       Margin="30,340,0,0"
+                       Margin="30,360,0,0"
                        Grid.Row="1"/>
-            <DockPanel VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,0,110" Width="150">
+            <DockPanel VerticalAlignment="Bottom" Grid.Row="1" Margin="0,0,30,100" Width="150">
                 <TextBox Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-                <Slider Maximum="1000" TickPlacement="BottomRight" TickFrequency="100" IsSnapToTickEnabled="True" Name="slValue" />
+                <Slider Maximum="1000" TickPlacement="BottomRight" TickFrequency="100" IsSnapToTickEnabled="True" Name="slValue" ValueChanged="slValue_ValueChanged" />
             </DockPanel>
-
-            <!--<Slider Width="120"
-                    Grid.Row="1"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Center"
-                    Margin="0,0,0,150"/>-->
+            <TextBlock Text="ms" Grid.Row="1" Height="25" Background="Transparent" Margin="165,295,0,0"
+                     FontSize="20" Foreground="White"/>
         </Grid>
     </Border>
 </Window>
