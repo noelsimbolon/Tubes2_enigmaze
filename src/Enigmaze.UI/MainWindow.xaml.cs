@@ -52,7 +52,7 @@ public partial class MainWindow : Window
             FileTextBlock.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF0000"));
             return;
         }
-        
+
         var fileDialog = new OpenFileDialog();
         fileDialog.Title = "Open Maze";
         fileDialog.DefaultExt = ".txt";
@@ -72,6 +72,12 @@ public partial class MainWindow : Window
                 // Valid file
                 FileTextBlock.Text = "File opened successfully.";
                 FileTextBlock.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00CC00"));
+
+                // Empty output texts
+                RouteTextBlock.Text = "";
+                VisitedNodesCountTextBlock.Text = "";
+                RouteLengthTextBlock.Text = "";
+                ExecutionTimeTextBlock.Text = "";
 
                 InitializeGrid(sender, e);
             }
